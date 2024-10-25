@@ -22,5 +22,5 @@ MonoBehaviour:
   _consumables:
   - _type: 4
     _value: 0
-  _duration: 10
+    _duration: 10
   _equipPrefab: {fileID: 0}

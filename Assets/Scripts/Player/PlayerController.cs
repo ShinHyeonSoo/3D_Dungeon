@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -18,6 +19,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 _mouseDelta;
     public bool _canLook = true;
 
+    public event Action Inventory;
     private Rigidbody _rigidbody;
 
     private void Awake()
@@ -99,6 +101,15 @@ public class PlayerController : MonoBehaviour
         {
             RestoreSpeed();
             CharacterManager.Instance.Player.Condition._isRun = false;
+        }
+    }
+
+    public void OnInventory(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+        {
+            Inventory?.Invoke();
+            ToggleCursor();
         }
     }
 

@@ -11,6 +11,9 @@ public class PlayerCondition : MonoBehaviour, IDamageable
     public UICondition _uiCondition;
     public bool _isRun = false;
     private float _runStamina = 0.1f;
+    private float _efficacyRate;
+    private float _lastCheckTime;
+    private bool _isEfficacy = false;
 
     Condition Health { get { return _uiCondition._health; } }
     Condition Stamina { get { return _uiCondition._stamina; } }
@@ -21,6 +24,9 @@ public class PlayerCondition : MonoBehaviour, IDamageable
     {
         RecoveryStamina();
 
+        if(_isEfficacy)
+            CheckEfficacy();
+
         if (Health._curValue == 0f)
         {
             Die();
@@ -30,6 +36,28 @@ public class PlayerCondition : MonoBehaviour, IDamageable
     public void Heal(float amount)
     {
         Health.Add(amount);
+    }
+
+    public void Drink(float amount)
+    {
+        Stamina.Add(amount);
+    }
+
+    public void SpeedBoost(float amount, float duration)
+    {
+        CharacterManager.Instance.Player.Controller._moveSpeed *= amount;
+        _efficacyRate = duration;
+        _lastCheckTime = Time.time;
+        _isEfficacy = true;
+    }
+
+    private void CheckEfficacy()
+    {
+        if(Time.time - _lastCheckTime > _efficacyRate)
+        {
+            CharacterManager.Instance.Player.Controller.RestoreSpeed();
+            _isEfficacy = false;
+        }
     }
 
     public void Die()

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _displayName: "\uD584\uBC84\uAC70"
   _description: "\uB354\uBE14 \uC810\uD504\uAC00 \uAC00\uB2A5\uD574\uC9D1\uB2C8\uB2E4."
-  _type: 0
+  _type: 1
   _icon: {fileID: 21300000, guid: a9f27ac7b41a75a478f948745e664f9d, type: 3}
   _dropPrefab: {fileID: 5953112287519486123, guid: 437d7d0ee22c78e4e88d0a315f6374bb, type: 3}
   _canStack: 1
@@ -22,5 +22,5 @@ MonoBehaviour:
   _consumables:
   - _type: 3
     _value: 0
-  _duration: 10
+    _duration: 10
   _equipPrefab: {fileID: 0}

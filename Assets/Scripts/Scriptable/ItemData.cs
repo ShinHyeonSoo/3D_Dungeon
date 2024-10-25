@@ -24,6 +24,7 @@ public class ItemDataConsumable
 {
     public ConsumableType _type;
     public float _value;
+    public float _duration;
 }
 
 [CreateAssetMenu(fileName = "Item", menuName = "Create Data/New Item", order = 0)]
@@ -42,7 +43,6 @@ public class ItemData : ScriptableObject
 
     [Header("Consumable")]
     public ItemDataConsumable[] _consumables;
-    public float _duration;
 
     [Header("Equip")]
     public GameObject _equipPrefab;

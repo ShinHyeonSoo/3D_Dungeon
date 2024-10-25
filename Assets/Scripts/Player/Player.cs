@@ -9,6 +9,8 @@ public class Player : MonoBehaviour
     public ItemData _itemData;
     public Action AddItem;
 
+    public Transform _dropPosition;
+
     public PlayerController Controller { get { return _controller; } }
     public PlayerCondition Condition { get { return _condition; } }
 
