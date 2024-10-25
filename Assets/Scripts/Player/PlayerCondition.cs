@@ -14,6 +14,7 @@ public class PlayerCondition : MonoBehaviour, IDamageable
     private float _efficacyRate;
     private float _lastCheckTime;
     private bool _isEfficacy = false;
+    private ConsumableType _consumableType;
 
     Condition Health { get { return _uiCondition._health; } }
     Condition Stamina { get { return _uiCondition._stamina; } }
@@ -43,10 +44,20 @@ public class PlayerCondition : MonoBehaviour, IDamageable
         Stamina.Add(amount);
     }
 
-    public void SpeedBoost(float amount, float duration)
+    public void SpeedBoost(float amount, float duration, ConsumableType type)
     {
         CharacterManager.Instance.Player.Controller._moveSpeed *= amount;
         _efficacyRate = duration;
+        _consumableType = type;
+        _lastCheckTime = Time.time;
+        _isEfficacy = true;
+    }
+
+    public void DoubleJump(float duration, ConsumableType type)
+    {
+        CharacterManager.Instance.Player.Controller.IsDoubleJump = true;
+        _efficacyRate = duration;
+        _consumableType = type;
         _lastCheckTime = Time.time;
         _isEfficacy = true;
     }
@@ -55,7 +66,19 @@ public class PlayerCondition : MonoBehaviour, IDamageable
     {
         if(Time.time - _lastCheckTime > _efficacyRate)
         {
-            CharacterManager.Instance.Player.Controller.RestoreSpeed();
+            switch(_consumableType)
+            {
+                case ConsumableType.SpeedBoost:
+                    // TODO : 아이템 먹었을 때와, 달리기 중일때 구분해서 속도 되돌리기
+                    CharacterManager.Instance.Player.Controller.RestoreSpeed();
+                    break;
+                case ConsumableType.DoubleJump:
+                    CharacterManager.Instance.Player.Controller.IsDoubleJump = false;
+                    break;
+                case ConsumableType.Invincibility:
+                    break;
+            }
+            _consumableType = ConsumableType.None;
             _isEfficacy = false;
         }
     }

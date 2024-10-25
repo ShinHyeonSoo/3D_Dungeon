@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour
     private float _originMoveSpeed;
     private float _runSpeedRate = 2f;
     private float _runStaminaLimit = 20f;
+    private bool _isDoubleJump = false;
+    private int _jumpCount;
 
     [Header("Look")]
     public Transform _cameraContainer;
@@ -21,6 +23,8 @@ public class PlayerController : MonoBehaviour
 
     public event Action Inventory;
     private Rigidbody _rigidbody;
+
+    public bool IsDoubleJump { get { return _isDoubleJump; } set { _isDoubleJump = value; } }
 
     private void Awake()
     {
@@ -86,7 +90,13 @@ public class PlayerController : MonoBehaviour
     {
         if (context.phase == InputActionPhase.Started && IsGrounded())
         {
+            // 두 번째 점프도 첫 번째 점프와 같은 높이를 뛰기 위해, velocity의 y값을 초기화
+            Vector3 velocity = _rigidbody.velocity;
+            velocity.y = 0;
+            _rigidbody.velocity = velocity;
+
             _rigidbody.AddForce(Vector2.up * _jumpPower, ForceMode.Impulse);
+            ++_jumpCount;
         }
     }
 
@@ -99,6 +109,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (context.phase == InputActionPhase.Canceled)
         {
+            // TODO : 조건분기, 아이템 먹었을때 달리기와 아닐때 달리기 속도 되돌리기 처리
             RestoreSpeed();
             CharacterManager.Instance.Player.Condition._isRun = false;
         }
@@ -125,6 +136,9 @@ public class PlayerController : MonoBehaviour
 
     bool IsGrounded()
     {
+        // TODO : 점프 상태 = 카운트 1 이면 아래 검사를 무시 (true 처리)
+        if (_isDoubleJump && _jumpCount == 1) return true;
+
         Ray[] rays = new Ray[4]
         {
             new Ray(transform.position + (transform.forward * 0.2f) + (transform.up * 0.01f), Vector3.down),
@@ -137,6 +151,7 @@ public class PlayerController : MonoBehaviour
         {
             if (Physics.Raycast(rays[i], 0.1f, _groundLayerMask))
             {
+                _jumpCount = 0;
                 return true;
             }
         }

@@ -223,10 +223,13 @@ public class UIInventory : MonoBehaviour
                         _condition.Drink(_selectedItem._consumables[i]._value);
                         break;
                     case ConsumableType.SpeedBoost:
-                        _condition.SpeedBoost(_selectedItem._consumables[i]._value, _selectedItem._consumables[i]._duration);
+                        _condition.SpeedBoost(_selectedItem._consumables[i]._value, 
+                            _selectedItem._consumables[i]._duration,
+                            _selectedItem._consumables[i]._type);
                         break;
                     case ConsumableType.DoubleJump:
-                        // TODO : 더블점프
+                        _condition.DoubleJump(_selectedItem._consumables[i]._duration, 
+                            _selectedItem._consumables[i]._type);
                         break;
                     case ConsumableType.Invincibility:
                         // TODO : 무적

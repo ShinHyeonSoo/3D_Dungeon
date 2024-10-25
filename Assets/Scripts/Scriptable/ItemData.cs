@@ -16,7 +16,8 @@ public enum ConsumableType
     Stamina,
     SpeedBoost,
     DoubleJump,
-    Invincibility
+    Invincibility,
+    None
 }
 
 [Serializable]
