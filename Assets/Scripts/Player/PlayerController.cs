@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviour
     public LayerMask _groundLayerMask;
     private Vector2 _curMovementInput;
     private float _originMoveSpeed;
+    private float _runSpeedRate = 2f;
+    private float _runStaminaLimit = 20f;
 
     [Header("Look")]
     public Transform _cameraContainer;
@@ -88,14 +90,26 @@ public class PlayerController : MonoBehaviour
 
     public void OnRun(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Performed)
+        if (context.phase == InputActionPhase.Performed && HasStemina())
         {
-            _moveSpeed *= 1.5f;
+            _moveSpeed *= _runSpeedRate;
+            CharacterManager.Instance.Player.Condition._isRun = true;
         }
         else if (context.phase == InputActionPhase.Canceled)
         {
-            _moveSpeed = _originMoveSpeed;
+            RestoreSpeed();
+            CharacterManager.Instance.Player.Condition._isRun = false;
         }
+    }
+
+    public void RestoreSpeed()
+    {
+        _moveSpeed = _originMoveSpeed;
+    }
+
+    bool HasStemina()
+    {
+        return CharacterManager.Instance.Player.Condition._uiCondition._stamina._curValue > _runStaminaLimit;
     }
 
     bool IsGrounded()

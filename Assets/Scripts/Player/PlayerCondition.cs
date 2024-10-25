@@ -9,6 +9,8 @@ public interface IDamageable
 public class PlayerCondition : MonoBehaviour, IDamageable
 {
     public UICondition _uiCondition;
+    public bool _isRun = false;
+    private float _runStamina = 0.1f;
 
     Condition Health { get { return _uiCondition._health; } }
     Condition Stamina { get { return _uiCondition._stamina; } }
@@ -17,7 +19,7 @@ public class PlayerCondition : MonoBehaviour, IDamageable
 
     void Update()
     {
-        Stamina.Add(Stamina._passiveValue * Time.deltaTime);
+        RecoveryStamina();
 
         if (Health._curValue == 0f)
         {
@@ -33,6 +35,14 @@ public class PlayerCondition : MonoBehaviour, IDamageable
     public void Die()
     {
         Debug.Log("ав╬З╢ы.");
+    }
+    
+    public void RecoveryStamina()
+    {
+        if (!_isRun)
+            Stamina.Add(Stamina._passiveValue * Time.deltaTime);
+        else
+            Run();
     }
 
     public void TakePhysicalDamage(int damage)
@@ -50,5 +60,17 @@ public class PlayerCondition : MonoBehaviour, IDamageable
 
         Stamina.Subtract(amount);
         return true;
+    }
+
+    public void Run()
+    {
+        if (Stamina._curValue <= 0f)
+        {
+            CharacterManager.Instance.Player.Controller.RestoreSpeed();
+            _isRun = false;
+            return;
+        }
+
+        Stamina.Subtract(_runStamina);
     }
 }
