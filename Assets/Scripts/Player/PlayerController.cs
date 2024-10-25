@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     public float _jumpPower;
     public LayerMask _groundLayerMask;
     private Vector2 _curMovementInput;
+    private float _originMoveSpeed;
 
     [Header("Look")]
     public Transform _cameraContainer;
@@ -20,6 +21,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
+        _originMoveSpeed = _moveSpeed;
     }
 
     // Start is called before the first frame update
@@ -81,6 +83,18 @@ public class PlayerController : MonoBehaviour
         if (context.phase == InputActionPhase.Started && IsGrounded())
         {
             _rigidbody.AddForce(Vector2.up * _jumpPower, ForceMode.Impulse);
+        }
+    }
+
+    public void OnRun(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Performed)
+        {
+            _moveSpeed *= 1.5f;
+        }
+        else if (context.phase == InputActionPhase.Canceled)
+        {
+            _moveSpeed = _originMoveSpeed;
         }
     }
 
