@@ -72,5 +72,5 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
 # Resources
-Externals/PolygonDungeon/
-Externals/Opsive/
+PolygonDungeon/
+Opsive/
