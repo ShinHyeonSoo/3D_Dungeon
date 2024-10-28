@@ -29,7 +29,7 @@ public class Interaction : MonoBehaviour
         if (Time.time - _lastCheckTime > _checkRate)
         {
             _lastCheckTime = Time.time;
-            Ray ray = new Ray(new Vector3(transform.position.x, transform.position.y + 0.1f, transform.position.z), transform.forward);
+            Ray ray = new Ray(new Vector3(transform.position.x, transform.position.y + 0.2f, transform.position.z), transform.forward);
             //Ray ray = _camera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2));
             RaycastHit hit;
             
