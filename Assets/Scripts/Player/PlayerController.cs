@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     private float _runSpeedRate = 2f;
     private float _runStaminaLimit = 20f;
     private bool _isDoubleJump = false;
+    private bool _isFlying = false;
     private int _jumpCount;
 
     [Header("Look")]
@@ -25,6 +26,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody _rigidbody;
 
     public bool IsDoubleJump { get { return _isDoubleJump; } set { _isDoubleJump = value; } }
+    public bool IsFlying { get { return _isFlying; } set {_isFlying = value; } }
 
     private void Awake()
     {
@@ -52,7 +54,9 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Move();
+        // TODO : 플랫폼 발사기 이용중엔 비활성화
+        if(!_isFlying)
+            Move();
     }
 
     private void Move()
