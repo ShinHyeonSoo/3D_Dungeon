@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class MovingFlatform : MonoBehaviour
+public class MovingPlatform : MonoBehaviour
 {
     [SerializeField] private Vector3 _startPos;
     [SerializeField] private Vector3 _endPos;
@@ -36,8 +36,6 @@ public class MovingFlatform : MonoBehaviour
         }
 
         transform.eulerAngles += new Vector3(0f, 60f * Time.deltaTime, 0f);
-        //transform.Translate(Vector3.left * 0.4f * Time.deltaTime);
-        //transform.Translate(Vector3.up * 0.2f *  Time.deltaTime);
     }
 
     private void OnTriggerEnter(Collider other)
