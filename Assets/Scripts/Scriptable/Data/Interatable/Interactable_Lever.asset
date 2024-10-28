@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _displayName: "\uB808\uBC84"
   _description: "'E \uD0A4\uB97C \uB20C\uB7EC \uB2F9\uAE30\uAE30'"
-  _type: 1
+  _type: 0
   _isInteract: 0

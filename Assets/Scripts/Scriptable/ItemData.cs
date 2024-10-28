@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,6 +18,14 @@ public enum ConsumableType
     SpeedBoost,
     DoubleJump,
     Invincibility,
+    None
+}
+
+public enum EquipType
+{
+    Weapon,
+    Bag,
+    Belt,
     None
 }
 
@@ -47,4 +56,6 @@ public class ItemData : ScriptableObject
 
     [Header("Equip")]
     public GameObject _equipPrefab;
+    public EquipType _equipType;
+    public float _stat;
 }

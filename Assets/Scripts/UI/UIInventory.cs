@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,7 +41,7 @@ public class UIInventory : MonoBehaviour
     private ItemData _selectedItem;
     private int _selectedItemIdx;
 
-    int _curEquipIdx;
+    int[] _curEquipsIdx;
 
     private void Awake()
     {
@@ -64,6 +65,9 @@ public class UIInventory : MonoBehaviour
 
         _inventoryWindow.SetActive(false);
         _slots = new ItemSlot[_slotPanel.childCount];
+
+        _curEquipsIdx = new int[(int)EquipType.None];
+        Array.Fill(_curEquipsIdx, -1); Array.Fill(_curEquipsIdx, -1);
 
         for (int i = 0; i < _slots.Length; ++i)
         {
@@ -180,7 +184,7 @@ public class UIInventory : MonoBehaviour
     void ThrowItem(ItemData data)
     {
         Instantiate(data._dropPrefab, _dropPosition.position,
-            Quaternion.Euler(Vector3.one * Random.value * 360));
+            Quaternion.Euler(Vector3.one * UnityEngine.Random.value * 360));
     }
 
     public void SelectItem(int index)
@@ -261,35 +265,36 @@ public class UIInventory : MonoBehaviour
         UpdateUI();
     }
 
-    //public void OnEquipButton()
-    //{
-    //    if (_slots[_curEquipIdx]._equipped)
-    //    {
-    //        UnEquip(_curEquipIdx);
-    //    }
+    public void OnEquipButton()
+    {
+        if (_curEquipsIdx[(int)_selectedItem._equipType] != -1 
+            && _slots[_curEquipsIdx[(int)_selectedItem._equipType]]._equipped)
+        {
+            UnEquip(_curEquipsIdx[(int)_selectedItem._equipType]);
+        }
 
-    //    _slots[_selectedItemIdx]._equipped = true;
-    //    _curEquipIdx = _selectedItemIdx;
-    //    CharacterManager.Instance.Player._equipment.EquipNew(_selectedItem);
-    //    UpdateUI();
+        _slots[_selectedItemIdx]._equipped = true;
+        _curEquipsIdx[(int)_selectedItem._equipType] = _selectedItemIdx;
+        CharacterManager.Instance.Player.Equipment.EquipNew(_selectedItem);
+        UpdateUI();
 
-    //    SelectItem(_selectedItemIdx);
-    //}
+        SelectItem(_selectedItemIdx);
+    }
 
-    //public void UnEquipButton()
-    //{
-    //    UnEquip(_selectedItemIdx);
-    //}
+    public void UnEquipButton()
+    {
+        UnEquip(_selectedItemIdx);
+    }
 
-    //private void UnEquip(int index)
-    //{
-    //    _slots[index]._equipped = false;
-    //    CharacterManager.Instance.Player._equipment.UnEquip();
-    //    UpdateUI();
+    private void UnEquip(int index)
+    {
+        _slots[index]._equipped = false;
+        CharacterManager.Instance.Player.Equipment.UnEquip(_slots[index]._item._equipType);
+        UpdateUI();
 
-    //    if (_selectedItemIdx == index)
-    //    {
-    //        SelectItem(_selectedItemIdx);
-    //    }
-    //}
+        if (_selectedItemIdx == index)
+        {
+            SelectItem(_selectedItemIdx);
+        }
+    }
 }

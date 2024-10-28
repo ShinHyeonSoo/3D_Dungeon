@@ -11,7 +11,9 @@ public class PlayerCondition : MonoBehaviour, IDamageable
     public UICondition _uiCondition;
     public bool _isRun = false;
     private float _runStamina = 0.1f;
+    private float _efficacyStat;
     private float _efficacyRate;
+    private float _runRate;
     private float _lastCheckTime;
     private bool _isEfficacy = false;
     private ConsumableType _consumableType;
@@ -20,6 +22,11 @@ public class PlayerCondition : MonoBehaviour, IDamageable
     Condition Stamina { get { return _uiCondition._stamina; } }
 
     public event Action OnTakeDamage;
+
+    private void Start()
+    {
+        _runRate = CharacterManager.Instance.Player.Controller._runSpeedRate;
+    }
 
     void Update()
     {
@@ -46,7 +53,8 @@ public class PlayerCondition : MonoBehaviour, IDamageable
 
     public void SpeedBoost(float amount, float duration, ConsumableType type)
     {
-        CharacterManager.Instance.Player.Controller._moveSpeed *= amount;
+        _efficacyStat = amount;
+        CharacterManager.Instance.Player.Controller._moveSpeed *= _efficacyStat;
         _efficacyRate = duration;
         _consumableType = type;
         _lastCheckTime = Time.time;
@@ -70,7 +78,8 @@ public class PlayerCondition : MonoBehaviour, IDamageable
             {
                 case ConsumableType.SpeedBoost:
                     // TODO : 아이템 먹었을 때와, 달리기 중일때 구분해서 속도 되돌리기
-                    CharacterManager.Instance.Player.Controller.RestoreSpeed();
+                    CharacterManager.Instance.Player.Controller.RestoreSpeed(_efficacyStat);
+                    _efficacyStat = 0f;
                     break;
                 case ConsumableType.DoubleJump:
                     CharacterManager.Instance.Player.Controller.IsDoubleJump = false;
@@ -117,7 +126,7 @@ public class PlayerCondition : MonoBehaviour, IDamageable
     {
         if (Stamina._curValue <= 0f)
         {
-            CharacterManager.Instance.Player.Controller.RestoreSpeed();
+            CharacterManager.Instance.Player.Controller.RestoreSpeed(_runRate);
             _isRun = false;
             return;
         }

@@ -7,10 +7,9 @@ public class PlayerController : MonoBehaviour
     [Header("Movement")]
     public float _moveSpeed;
     public float _jumpPower;
+    public float _runSpeedRate = 2f;
     public LayerMask _groundLayerMask;
     private Vector2 _curMovementInput;
-    private float _originMoveSpeed;
-    private float _runSpeedRate = 2f;
     private float _runStaminaLimit = 20f;
     private bool _isDoubleJump = false;
     private bool _isFlying = false;
@@ -32,7 +31,6 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
-        _originMoveSpeed = _moveSpeed;
     }
 
     // Start is called before the first frame update
@@ -55,7 +53,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // TODO : 플랫폼 발사기 이용중엔 비활성화
+        // 플랫폼 발사기 이용중엔 비활성화
         if(!_isFlying)
             Move();
     }
@@ -114,9 +112,12 @@ public class PlayerController : MonoBehaviour
         }
         else if (context.phase == InputActionPhase.Canceled)
         {
-            // TODO : 조건분기, 아이템 먹었을때 달리기와 아닐때 달리기 속도 되돌리기 처리
-            RestoreSpeed();
-            CharacterManager.Instance.Player.Condition._isRun = false;
+            // 조건분기, 아이템 먹었을때 달리기와 아닐때 달리기 속도 되돌리기 처리
+            if (CharacterManager.Instance.Player.Condition._isRun)
+            {
+                RestoreSpeed(_runSpeedRate);
+                CharacterManager.Instance.Player.Condition._isRun = false;
+            }
         }
     }
 
@@ -138,11 +139,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void RestoreSpeed()
-    {
-        _moveSpeed = _originMoveSpeed;
-    }
-
     bool HasStemina()
     {
         return CharacterManager.Instance.Player.Condition._uiCondition._stamina._curValue > _runStaminaLimit;
@@ -150,7 +146,7 @@ public class PlayerController : MonoBehaviour
 
     bool IsGrounded()
     {
-        // TODO : 점프 상태 = 카운트 1 이면 아래 검사를 무시 (true 처리)
+        // 점프 상태 = 카운트 1 이면 아래 검사를 무시 (true 처리)
         if (_isDoubleJump && _jumpCount == 1) return true;
 
         Ray[] rays = new Ray[4]
@@ -178,5 +174,29 @@ public class PlayerController : MonoBehaviour
         bool toggle = Cursor.lockState == CursorLockMode.Locked;
         Cursor.lockState = toggle ? CursorLockMode.None : CursorLockMode.Locked;
         _canLook = !toggle;
+    }
+    public void RestoreSpeed(float rate)
+    {
+        _moveSpeed /= rate;
+    }
+
+    public void IncreaseSpeed(float speed)
+    {
+        _moveSpeed += speed;
+    }
+
+    public void DecreaseSpeed(float speed)
+    {
+        _moveSpeed -= speed;
+    }
+
+    public void IncreaseJumpPower(float power)
+    {
+        _jumpPower += power;
+    }
+
+    public void DecreaseJumpPower(float power)
+    {
+        _jumpPower -= power;
     }
 }

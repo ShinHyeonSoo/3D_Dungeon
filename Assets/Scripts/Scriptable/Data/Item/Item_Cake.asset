@@ -24,3 +24,5 @@ MonoBehaviour:
     _value: 1.5
     _duration: 10
   _equipPrefab: {fileID: 0}
+  _equipType: 0
+  _stat: 0
