@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
     public bool _canLook = true;
 
     public event Action Inventory;
+    public Action Interaction;
     private Rigidbody _rigidbody;
 
     public bool IsDoubleJump { get { return _isDoubleJump; } set { _isDoubleJump = value; } }
@@ -125,6 +126,15 @@ public class PlayerController : MonoBehaviour
         {
             Inventory?.Invoke();
             ToggleCursor();
+        }
+    }
+
+    public void OnInteraction(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+        {
+            Interaction?.Invoke();
+            Interaction = null;
         }
     }
 

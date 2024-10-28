@@ -33,7 +33,7 @@ public class Interaction : MonoBehaviour
             //Ray ray = _camera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2));
             RaycastHit hit;
             
-            Debug.DrawLine(ray.origin, ray.direction, Color.red);
+            //Debug.DrawLine(ray.origin, ray.direction, Color.red);
 
             if (Physics.Raycast(ray, out hit, _maxCheckDistance, _layerMask))
             {

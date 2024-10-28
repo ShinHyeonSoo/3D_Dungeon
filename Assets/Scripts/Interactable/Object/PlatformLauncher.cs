@@ -42,10 +42,8 @@ public class PlatformLauncher : MonoBehaviour
                     break;
                 case LauncherType.InputKey:
                     {
-                        if(Input.GetKeyDown(KeyCode.E))
-                        {
-                            Launch();
-                        }
+                        if (null == CharacterManager.Instance.Player.Controller.Interaction)
+                            CharacterManager.Instance.Player.Controller.Interaction += Launch;
                     }
                     break;
             }
