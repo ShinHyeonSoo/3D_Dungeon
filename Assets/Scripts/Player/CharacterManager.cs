@@ -10,5 +10,7 @@ public class CharacterManager : Singleton<CharacterManager>
     protected override void Awake()
     {
         base.Awake();
+
+        MapManager.Instance.InitMapBake();
     }
 }
