@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5911004278633147767}
   - component: {fileID: 3973143284655891145}
   - component: {fileID: 6442100356516658154}
+  - component: {fileID: 1554813907043942268}
   m_Layer: 0
   m_Name: DetectCollider
   m_TagString: Untagged
@@ -66,6 +67,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80f67840f30054f4e8012814971db73d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1554813907043942268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3475187631040565078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ff40f12a8049864eb6a944c271bb0a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3663515757088999545
 GameObject:
   m_ObjectHideFlags: 0
@@ -78,6 +91,7 @@ GameObject:
   - component: {fileID: 6335365755546923730}
   - component: {fileID: 8556948092271306451}
   - component: {fileID: 271532510831723817}
+  - component: {fileID: 6518365967422559655}
   m_Layer: 7
   m_Name: JumpPad
   m_TagString: Untagged
@@ -93,7 +107,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3663515757088999545}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 3.5, y: 0.27, z: 10}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 0
@@ -174,6 +188,25 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 43233110753333874, guid: 6683cff489940fe41a5fe626887e2089, type: 2}
+--- !u!114 &6518365967422559655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3663515757088999545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 3
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 0
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
 --- !u!1 &5538680341540587496
 GameObject:
   m_ObjectHideFlags: 0
@@ -185,7 +218,7 @@ GameObject:
   - component: {fileID: 3236067738381398354}
   - component: {fileID: 5290351788643376174}
   - component: {fileID: 8134000537068548235}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -320,7 +353,7 @@ GameObject:
   - component: {fileID: 3670479040910954588}
   - component: {fileID: 1539796899027466518}
   - component: {fileID: 3156393259212547751}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -12,4 +12,13 @@ public class TouchGround : MonoBehaviour
             CharacterManager.Instance.Player.Animator.SetBool("Jump", false);
         }
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            CharacterManager.Instance.Player.Controller.IsFlying = false;
+            CharacterManager.Instance.Player.Animator.SetBool("Jump", false);
+        }
+    }
 }

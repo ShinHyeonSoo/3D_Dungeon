@@ -42,11 +42,16 @@ public class PlatformLauncher : MonoBehaviour
                     break;
                 case LauncherType.InputKey:
                     {
-                        if (null == CharacterManager.Instance.Player.Controller.Interaction)
+                        if (null == CharacterManager.Instance.Player.Controller.Interaction 
+                            && !CharacterManager.Instance.Player.Controller.IsFlying)
                             CharacterManager.Instance.Player.Controller.Interaction += Launch;
                     }
                     break;
             }
+        }
+        else
+        {
+            _timeOnPlatform = 0f;
         }
     }
 
