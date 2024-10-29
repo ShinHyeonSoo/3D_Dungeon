@@ -63,6 +63,7 @@ public class PlayerController : MonoBehaviour
         Vector3 dir = transform.forward * _curMovementInput.y + transform.right * _curMovementInput.x;
         dir *= _moveSpeed;
         dir.y = _rigidbody.velocity.y;
+        
 
         _rigidbody.velocity = dir;
     }
@@ -77,10 +78,12 @@ public class PlayerController : MonoBehaviour
         if (context.phase == InputActionPhase.Performed)
         {
             _curMovementInput = context.ReadValue<Vector2>();
+            PlayMoveAnim(_curMovementInput);
         }
         else if (context.phase == InputActionPhase.Canceled)
         {
             _curMovementInput = Vector2.zero;
+            PlayMoveAnim(_curMovementInput);
         }
     }
 
@@ -99,6 +102,7 @@ public class PlayerController : MonoBehaviour
             _rigidbody.velocity = velocity;
 
             _rigidbody.AddForce(Vector2.up * _jumpPower, ForceMode.Impulse);
+            CharacterManager.Instance.Player.Animator.SetBool("Jump", true);
             ++_jumpCount;
         }
     }
@@ -109,6 +113,7 @@ public class PlayerController : MonoBehaviour
         {
             _moveSpeed *= _runSpeedRate;
             CharacterManager.Instance.Player.Condition._isRun = true;
+            CharacterManager.Instance.Player.Animator.SetBool("Run", true);
         }
         else if (context.phase == InputActionPhase.Canceled)
         {
@@ -117,6 +122,7 @@ public class PlayerController : MonoBehaviour
             {
                 RestoreSpeed(_runSpeedRate);
                 CharacterManager.Instance.Player.Condition._isRun = false;
+                CharacterManager.Instance.Player.Animator.SetBool("Run", false);
             }
         }
     }
@@ -167,6 +173,20 @@ public class PlayerController : MonoBehaviour
         }
 
         return false;
+    }
+
+    void PlayMoveAnim(Vector2 dir)
+    {
+        if(dir == Vector2.zero)
+        {
+            CharacterManager.Instance.Player.Animator.SetBool("Move", false);
+        }
+        else
+        {
+            CharacterManager.Instance.Player.Animator.SetBool("Move", true);
+            CharacterManager.Instance.Player.Animator.SetFloat("MoveX", dir.x);
+            CharacterManager.Instance.Player.Animator.SetFloat("MoveY", dir.y);
+        }
     }
 
     void ToggleCursor()

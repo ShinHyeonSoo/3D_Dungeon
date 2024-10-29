@@ -32,6 +32,8 @@ public class Equipment : MonoBehaviour
             CharacterManager.Instance.Player.Controller.IncreaseSpeed(_equipStats[(int)data._equipType]);
         else if (data._equipType == EquipType.Belt)
             CharacterManager.Instance.Player.Controller.IncreaseJumpPower(_equipStats[(int)data._equipType]);
+        else if (data._equipType == EquipType.Weapon)
+            CharacterManager.Instance.Player.Animator.SetBool("IsEquipWeapon", true);
     }
 
     public void UnEquip(EquipType type)
@@ -42,6 +44,8 @@ public class Equipment : MonoBehaviour
                 CharacterManager.Instance.Player.Controller.DecreaseSpeed(_equipStats[(int)type]);
             else if (type == EquipType.Belt)
                 CharacterManager.Instance.Player.Controller.DecreaseJumpPower(_equipStats[(int)type]);
+            else if (type == EquipType.Weapon)
+                CharacterManager.Instance.Player.Animator.SetBool("IsEquipWeapon", false);
 
             Destroy(_curEquips[(int)type].gameObject);
             _curEquips[(int)type] = null;

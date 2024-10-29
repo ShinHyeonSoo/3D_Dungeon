@@ -9,6 +9,7 @@ public class TouchGround : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             CharacterManager.Instance.Player.Controller.IsFlying = false;
+            CharacterManager.Instance.Player.Animator.SetBool("Jump", false);
         }
     }
 }

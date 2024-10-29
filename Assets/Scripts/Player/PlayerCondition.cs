@@ -127,6 +127,7 @@ public class PlayerCondition : MonoBehaviour, IDamageable
         if (Stamina._curValue <= 0f)
         {
             CharacterManager.Instance.Player.Controller.RestoreSpeed(_runRate);
+            CharacterManager.Instance.Player.Animator.SetBool("Run", false);
             _isRun = false;
             return;
         }

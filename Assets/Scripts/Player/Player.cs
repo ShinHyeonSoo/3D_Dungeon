@@ -7,6 +7,8 @@ public class Player : MonoBehaviour
     private PlayerCondition _condition;
     private Equipment _equipment;
 
+    private Animator _animator;
+
     public ItemData _itemData;
     public Action AddItem;
 
@@ -15,6 +17,7 @@ public class Player : MonoBehaviour
     public PlayerController Controller { get { return _controller; } }
     public PlayerCondition Condition { get { return _condition; } }
     public Equipment Equipment { get { return _equipment; } }
+    public Animator Animator { get { return _animator; } }
 
     private void Awake()
     {
@@ -22,5 +25,7 @@ public class Player : MonoBehaviour
         _controller = GetComponent<PlayerController>();
         _condition = GetComponent<PlayerCondition>();
         _equipment = GetComponent<Equipment>();
+
+        _animator = GetComponent<Animator>();
     }
 }

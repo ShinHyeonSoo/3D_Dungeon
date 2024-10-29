@@ -17,6 +17,7 @@ public class ResetPos : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             CharacterManager.Instance.Player.transform.position = _resetPos;
+            CharacterManager.Instance.Player.Animator.SetBool("Jump", false);
         }
     }
 }
