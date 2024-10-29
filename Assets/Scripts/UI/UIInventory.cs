@@ -236,7 +236,8 @@ public class UIInventory : MonoBehaviour
                             _selectedItem._consumables[i]._type);
                         break;
                     case ConsumableType.Invincibility:
-                        // TODO : ¹«Àû
+                        _condition.Invincibility(_selectedItem._consumables[i]._duration,
+                            _selectedItem._consumables[i]._type);
                         break;
                 }
             }

@@ -9,13 +9,17 @@ public interface IDamageable
 public class PlayerCondition : MonoBehaviour, IDamageable
 {
     public UICondition _uiCondition;
-    public bool _isRun = false;
+    public bool _isRun;
+
     private float _runStamina = 0.1f;
     private float _efficacyStat;
     private float _efficacyRate;
     private float _runRate;
     private float _lastCheckTime;
-    private bool _isEfficacy = false;
+
+    private bool _isEfficacy;
+    private bool _isInvincibility;
+
     private ConsumableType _consumableType;
 
     Condition Health { get { return _uiCondition._health; } }
@@ -70,6 +74,15 @@ public class PlayerCondition : MonoBehaviour, IDamageable
         _isEfficacy = true;
     }
 
+    public void Invincibility(float duration, ConsumableType type)
+    {
+        _isInvincibility = true;
+        _efficacyRate = duration;
+        _consumableType = type;
+        _lastCheckTime = Time.time;
+        _isEfficacy = true;
+    }
+
     private void CheckEfficacy()
     {
         if(Time.time - _lastCheckTime > _efficacyRate)
@@ -85,6 +98,7 @@ public class PlayerCondition : MonoBehaviour, IDamageable
                     CharacterManager.Instance.Player.Controller.IsDoubleJump = false;
                     break;
                 case ConsumableType.Invincibility:
+                    _isInvincibility = false;
                     break;
             }
             _consumableType = ConsumableType.None;
@@ -107,8 +121,13 @@ public class PlayerCondition : MonoBehaviour, IDamageable
 
     public void TakePhysicalDamage(int damage)
     {
+        // TODO : 무적 상태일 때 여기서 리턴
+        if (_isInvincibility) return;
+
         Health.Subtract(damage);
         OnTakeDamage?.Invoke();
+        // TODO : Hit 애니메이션 재생
+
     }
 
     public bool UseStamina(float amount)
