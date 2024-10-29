@@ -44,6 +44,8 @@ public class Monster : MonoBehaviour, IDamageable
     private Animator _animator;
     private SkinnedMeshRenderer[] _meshRenderers;
 
+    private float _bakeDelay = 2f;
+
     // Start is called before the first frame update
     private void Awake()
     {
@@ -52,44 +54,45 @@ public class Monster : MonoBehaviour, IDamageable
         _navAgent = GetComponent<NavMeshAgent>();
         _animator = GetComponent<Animator>();
         _meshRenderers = GetComponentsInChildren<SkinnedMeshRenderer>();
-
-        
     }
 
     private void Start()
     {
-        //SetState(AIState.Wandering);
+        SetState(AIState.Wandering);
     }
 
     // Update is called once per frame
     void Update()
     {
-        _playerDistance = Vector3.Distance(transform.position, CharacterManager.Instance.Player.transform.position);
+        if (Time.time  > _bakeDelay)
+        { 
+            _playerDistance = Vector3.Distance(transform.position, CharacterManager.Instance.Player.transform.position);
 
-        _animator.SetBool("Moving", _aiState != AIState.Idle);
+            _animator.SetBool("Moving", _aiState != AIState.Idle);
 
-        switch (_aiState)
-        {
-            case AIState.Idle:
-            case AIState.Wandering:
-                PassiveUpdate();
-                break;
-            case AIState.Attacking:
-                AttackingUpdate();
-                break;
+            switch (_aiState)
+            {
+                case AIState.Idle:
+                case AIState.Wandering:
+                    PassiveUpdate();
+                    break;
+                case AIState.Attacking:
+                    AttackingUpdate();
+                    break;
+            }
         }
     }
 
     public void SetState(AIState state)
     {
-        if (NavMesh.SamplePosition(transform.position, out NavMeshHit hit, 1.0f, NavMesh.AllAreas))
-        {
-            Debug.Log("Agent is on the NavMesh.");
-        }
-        else
-        {
-            Debug.Log("Agent is not on the NavMesh.");
-        }
+        //if (NavMesh.SamplePosition(transform.position, out NavMeshHit hit, 1.0f, NavMesh.AllAreas))
+        //{
+        //    Debug.Log("Agent is on the NavMesh.");
+        //}
+        //else
+        //{
+        //    Debug.Log("Agent is not on the NavMesh.");
+        //}
 
         _aiState = state;
 

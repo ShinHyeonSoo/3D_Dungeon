@@ -13,10 +13,16 @@ public class MapManager : Singleton<MapManager>
         base.Awake();
     }
 
+    private void Start()
+    {
+        var monster = Resources.Load<GameObject>("Prefabs/Monster");
+        Instantiate(monster);
+    }
+
     public void InitMapBake()
     {
-        _map = Resources.Load<GameObject>("Prefabs/Maps");
-        Instantiate(_map);
+        var temp = Resources.Load<GameObject>("Prefabs/Maps");
+        _map = Instantiate(temp);
 
         _navSurfaces = _map.GetComponentsInChildren<NavMeshSurface>();
 
