@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     private bool _isDoubleJump = false;
     private bool _isFlying = false;
     private int _jumpCount;
+    private bool _isClimbing;
 
     [Header("Look")]
     public Transform _cameraContainer;
@@ -24,6 +25,10 @@ public class PlayerController : MonoBehaviour
     public event Action Inventory;
     public Action Interaction;
     private Rigidbody _rigidbody;
+
+    [SerializeField] Vector3 TestVelocity;
+    private float _lastCheckTime;
+    private float _checkRate = 0.1f;
 
     public bool IsDoubleJump { get { return _isDoubleJump; } set { _isDoubleJump = value; } }
     public bool IsFlying { get { return _isFlying; } set {_isFlying = value; } }
@@ -42,7 +47,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        DetectWall();
     }
 
     private void LateUpdate()
@@ -58,12 +63,54 @@ public class PlayerController : MonoBehaviour
             Move();
     }
 
+    private void DetectWall()
+    {
+        if (Time.time - _lastCheckTime > _checkRate)
+        {
+            _lastCheckTime = Time.time;
+            Ray ray = new Ray(new Vector3(transform.position.x, transform.position.y + 0.2f, transform.position.z), transform.forward);
+            //Ray ray = _camera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2));
+            RaycastHit hit;
+
+            //Debug.DrawLine(ray.origin, ray.direction, Color.red);
+
+            if (Physics.Raycast(ray, out hit, 0.3f, 1 << LayerMask.NameToLayer("Wall")))
+            {
+                _isClimbing = true;
+                _rigidbody.useGravity = false;
+                CharacterManager.Instance.Player.Animator.SetBool("IsClimbing", true);
+            }
+            else
+            {
+                _isClimbing = false;
+                _rigidbody.useGravity = true;
+                CharacterManager.Instance.Player.Animator.SetBool("IsClimbing", false);
+            }
+        }
+    }
+
     private void Move()
     {
+        if (_isClimbing)
+        {
+            Climbing();
+            return;
+        }
+
         Vector3 dir = transform.forward * _curMovementInput.y + transform.right * _curMovementInput.x;
         dir *= _moveSpeed;
         dir.y = _rigidbody.velocity.y;
-        
+
+
+        _rigidbody.velocity = dir;
+
+        TestVelocity = _rigidbody.velocity;
+    }
+
+    private void Climbing()
+    {
+        Vector3 dir = transform.up * _curMovementInput.y + transform.right * _curMovementInput.x;
+        dir *= _moveSpeed * 0.5f;
 
         _rigidbody.velocity = dir;
     }
@@ -94,16 +141,27 @@ public class PlayerController : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Started && IsGrounded())
+        if (context.phase == InputActionPhase.Started/* && IsGrounded()*/)
         {
-            // 두 번째 점프도 첫 번째 점프와 같은 높이를 뛰기 위해, velocity의 y값을 초기화
-            Vector3 velocity = _rigidbody.velocity;
-            velocity.y = 0;
-            _rigidbody.velocity = velocity;
+            if (IsGrounded())
+            {
+                // 두 번째 점프도 첫 번째 점프와 같은 높이를 뛰기 위해, velocity의 y값을 초기화
+                Vector3 velocity = _rigidbody.velocity;
+                velocity.y = 0;
+                _rigidbody.velocity = velocity;
 
-            _rigidbody.AddForce(Vector2.up * _jumpPower, ForceMode.Impulse);
-            CharacterManager.Instance.Player.Animator.SetBool("Jump", true);
-            ++_jumpCount;
+                _rigidbody.AddForce(Vector2.up * _jumpPower, ForceMode.Impulse);
+                CharacterManager.Instance.Player.Animator.SetBool("Jump", true);
+                ++_jumpCount;
+            }
+            else if(_isClimbing)
+            {
+                Vector3 dir = transform.forward * -1f;
+                _rigidbody.AddForce(dir * 10f, ForceMode.VelocityChange);
+                _isClimbing = false;
+                _rigidbody.useGravity = true;
+                CharacterManager.Instance.Player.Animator.SetBool("IsClimbing", false);
+            }
         }
     }
 
