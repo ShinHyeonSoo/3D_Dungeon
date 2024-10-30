@@ -29,3 +29,8 @@ Unity를 이용해 제작한 3D 개인과제 입니다.
 - Navigation, 상호작용 오브젝트
 #### 유틸
 - 스크립터블 오브젝트 데이터
+
+## 트러블 슈팅
+- 더블 점프 : https://www.notion.so/2024-10-25-30-TIL-12aa5b2defc8804f9b2dcade3b13231e
+- 플랫폼 발사기 : https://www.notion.so/2024-10-28-31-TIL-12da5b2defc881d69d03e23efc25d5a0
+- 동적 Bake : https://www.notion.so/2024-10-29-32-TIL-12ea5b2defc88000be49ce55e75092ec
