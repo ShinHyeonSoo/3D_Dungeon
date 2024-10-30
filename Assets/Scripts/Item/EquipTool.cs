@@ -20,6 +20,8 @@ public class EquipTool : Equip
             if (CharacterManager.Instance.Player.Condition.UseStamina(_useStamina))
             {
                 _isAttacking = true;
+                CharacterManager.Instance.Player.Animator.SetTrigger("Attack");
+                CharacterManager.Instance.Player.Controller.IsAttacking = true;
                 Invoke("OnCanAttack", _attackRate);
             }
         }
@@ -28,6 +30,7 @@ public class EquipTool : Equip
     private void OnCanAttack()
     {
         _isAttacking = false;
+        CharacterManager.Instance.Player.Controller.IsAttacking = false;
     }
 
     public void OnHit()

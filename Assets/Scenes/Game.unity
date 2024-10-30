@@ -5496,7 +5496,19 @@ MonoBehaviour:
     m_ActionId: af1158c3-2e73-4d2d-913e-0db77028ee29
     m_ActionName: Player/Interaction[/Keyboard/e]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1153263427}
+        m_TargetAssemblyTypeName: Equipment, Assembly-CSharp
+        m_MethodName: OnAttackInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: f40c8665-7ddf-402d-b8fb-c93881f8975b
     m_ActionName: Player/Attack[/Mouse/leftButton]
   - m_PersistentCalls:
@@ -5552,10 +5564,10 @@ MonoBehaviour:
   _groundLayerMask:
     serializedVersion: 2
     m_Bits: 128
+  _isAttacking: 0
   _cameraContainer: {fileID: 223822756}
   _lookSensitivity: 0.05
   _canLook: 1
-  TestVelocity: {x: 0, y: 0, z: 0}
 --- !u!114 &1153263425
 MonoBehaviour:
   m_ObjectHideFlags: 0

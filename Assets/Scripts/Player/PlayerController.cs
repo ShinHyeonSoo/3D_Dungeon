@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     private bool _isFlying = false;
     private int _jumpCount;
     private bool _isClimbing;
+    [SerializeField] private bool _isAttacking;
 
     [Header("Look")]
     public Transform _cameraContainer;
@@ -26,12 +27,12 @@ public class PlayerController : MonoBehaviour
     public Action Interaction;
     private Rigidbody _rigidbody;
 
-    [SerializeField] Vector3 TestVelocity;
     private float _lastCheckTime;
     private float _checkRate = 0.1f;
 
     public bool IsDoubleJump { get { return _isDoubleJump; } set { _isDoubleJump = value; } }
     public bool IsFlying { get { return _isFlying; } set {_isFlying = value; } }
+    public bool IsAttacking { get { return _isAttacking; } set { _isAttacking = value; } }
 
     private void Awake()
     {
@@ -58,9 +59,12 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (_isAttacking) return;
+
         // 플랫폼 발사기 이용중엔 비활성화
-        if(!_isFlying)
-            Move();
+        if (_isFlying) return;
+        
+        Move();
     }
 
     private void DetectWall()
@@ -103,8 +107,6 @@ public class PlayerController : MonoBehaviour
 
 
         _rigidbody.velocity = dir;
-
-        TestVelocity = _rigidbody.velocity;
     }
 
     private void Climbing()

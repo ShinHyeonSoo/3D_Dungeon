@@ -25,8 +25,6 @@ public class PlayerCondition : MonoBehaviour, IDamageable
     Condition Health { get { return _uiCondition._health; } }
     Condition Stamina { get { return _uiCondition._stamina; } }
 
-    public event Action OnTakeDamage;
-
     private void Start()
     {
         _runRate = CharacterManager.Instance.Player.Controller._runSpeedRate;
@@ -125,7 +123,6 @@ public class PlayerCondition : MonoBehaviour, IDamageable
         if (_isInvincibility) return;
 
         Health.Subtract(damage);
-        OnTakeDamage?.Invoke();
         // TODO : Hit 애니메이션 재생
 
     }

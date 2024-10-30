@@ -59,4 +59,9 @@ public class Equipment : MonoBehaviour
             _curEquips[(int)EquipType.Weapon].OnAttackInput();
         }
     }
+
+    public void OnHit()
+    {
+        _curEquips[(int)EquipType.Weapon].GetComponent<EquipTool>().OnHit();
+    }
 }

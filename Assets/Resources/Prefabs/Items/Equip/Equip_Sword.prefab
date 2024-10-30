@@ -128,8 +128,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38013a9d132fc0045b014f68ef8c1e56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _attackRate: 0
-  _attackDistance: 0
-  _useStamina: 0
-  _doesDealDamage: 0
-  _damage: 0
+  _attackRate: 2
+  _attackDistance: 1
+  _useStamina: 15
+  _doesDealDamage: 1
+  _damage: 10
